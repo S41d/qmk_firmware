@@ -16,6 +16,11 @@
 #include "doggo.h"
 #include "spaceship.h"
 
+enum custom_keycodes {
+  C_ALT = SAFE_RANGE,
+  C_TAB,
+};
+
 enum {
     LAYER_MAIN,
     LAYER_SYMB,
@@ -35,14 +40,11 @@ enum{
     L_S = LAYER_SYMB,
     L_T = LAYER_TYPE,
 };
-
-enum custom_keycodes {
-  C_ALT = QK_USER_30,
-  C_TAB,
+enum{
+    CKC_TAB = MT(L_N, KC_TAB),
 };
 
 static bool custom_ctrl_tab = false;
-static bool shift_held = false;
 static bool game_mode = false;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -62,25 +64,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     *            `----------------------------------'           '------''---------------------------'
     */
     [LAYER_MAIN] = LAYOUT(
-        TG(L_T),         KC_1,   KC_2,  KC_3,    KC_4,              KC_5,                                        KC_6,            KC_7,     KC_8,            KC_9,          KC_0,     KC_DEL,
-        LT(L_N, KC_TAB), KC_Q,   KC_W,  KC_E,    KC_R,              KC_T,                                        KC_Y,            KC_U,     KC_I,            KC_O,          KC_P,     KC_GRV,
-        CTL_T(KC_ESC),   KC_A,   KC_S,  KC_D,    KC_F,              KC_G,                                        KC_H,            KC_J,     KC_K,            KC_L,          KC_SCLN,  KC_QUOT,
-        KC_BSLS,         KC_Z,   KC_X,  KC_C,    KC_V,              KC_B,           KC_SPC,          KC_MUTE,    KC_N,            KC_M,     KC_COMM,         KC_DOT,        KC_SLSH,  TG(L_N),
-                              KC_LGUI,  KC_LALT, KC_LSFT, LT(L_S, KC_SPC), LT(L_O, KC_ENT), LT(L_O, KC_BSPC),    LT(L_S, KC_SPC), KC_RSFT,  OSM(MOD_RALT),   TG(L_G)
+        TG(L_T),       KC_1,   KC_2,  KC_3,    KC_4,    KC_5,                                               KC_6,            KC_7,    KC_8,          KC_9,   KC_0,    KC_DEL,
+        CKC_TAB,       KC_Q,   KC_W,  KC_E,    KC_R,    KC_T,                                               KC_Y,            KC_U,    KC_I,          KC_O,   KC_P,    KC_GRV,
+        CTL_T(KC_ESC), KC_A,   KC_S,  KC_D,    KC_F,    KC_G,                                               KC_H,            KC_J,    KC_K,          KC_L,   KC_SCLN, MT(MOD_RALT, KC_QUOT),
+        KC_LGUI,       KC_Z,   KC_X,  KC_C,    KC_V,    KC_B,            KC_SPC,          KC_MUTE,          KC_N,            KC_M,    KC_COMM,       KC_DOT, KC_SLSH, KC_BSLS,
+                            TG(L_N),  KC_LALT, KC_LSFT, LT(L_S, KC_SPC), LT(L_O, KC_ENT), MT(MOD_RALT, KC_BSPC), LT(L_S, KC_SPC), KC_RSFT, OSM(MOD_RALT), TG(L_G)
     ),
     [LAYER_SYMB] = LAYOUT(
-        _______,  KC_F1,     KC_F2,      KC_F3,      KC_F4,      KC_F5,                          KC_F6,      KC_F7,      KC_F8,      KC_F9,    KC_F10,     KC_F11,
-        C_TAB,    KC_EXLM,   KC_AT,      KC_HASH,    KC_DLR,     KC_PERC,                        KC_CIRC,    KC_AMPR,    KC_ASTR,    KC_LPRN,  KC_RPRN,    KC_F12,
-        _______,  KC_QUES,   KC_LBRC,    KC_LPRN,    KC_LCBR,    KC_EQL,                         KC_EXLM,    KC_RCBR,    KC_RPRN,    KC_RBRC,  KC_COLN,    KC_DQUO,
-        _______,  _______,   _______,    KC_UNDS,    KC_MINUS,   KC_PLUS,   _______, _______,    KC_TILD,    KC_PIPE,    KC_LT,      KC_GT,    _______,    _______,
-                             _______,    _______,    _______,    KC_SPC,    _______, C(KC_BSPC), KC_SPC,     _______,    _______,    _______
+        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,                      KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
+        C_TAB,   KC_EXLM, KC_AT,   KC_HASH, KC_DLR,   KC_PERC,                    KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_F12,
+        _______, KC_QUES, KC_LBRC, KC_LPRN, KC_LCBR,  KC_EQL,                     KC_EXLM, KC_RCBR, KC_RPRN, KC_RBRC, KC_COLN, KC_DQUO,
+        _______, _______, _______, KC_UNDS, KC_MINUS, KC_PLUS, _______, _______,  KC_TILD, KC_PIPE, KC_LT,   KC_GT,   _______, _______,
+                          _______, _______, _______,  KC_SPC,  _______, _______,  KC_SPC,  _______, _______, _______
     ),
     [LAYER_MISC] = LAYOUT(
-        OS_TOGG,        RGB_M_P,   RGB_M_B,    RGB_M_R,    RGB_M_SW,   _______,                        _______,     _______,    _______,    _______,   _______,   KC_PSCR,
-        _______,        _______,   _______,    _______,    RGB_MOD,    RGB_RMOD,                       _______,     UC_NEXT,    _______,    _______,   _______,   _______,
-        _______,        _______,   _______,    _______,    RGB_VAI,    RGB_VAD,                        KC_LEFT,     KC_DOWN,    KC_UP,      KC_RIGHT,  _______,   _______,
-        _______,        _______,   _______,    _______,    RGB_SPI,    RGB_SPD,   _______,  _______,   _______,     _______,    _______,    _______,   _______,   _______,
-                                   _______,    _______,    _______,    _______,   _______,  A(KC_F12), _______,     _______,    _______,    _______
+        OS_TOGG, RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW, _______,                      _______, _______, _______, _______,  _______, KC_PSCR,
+        _______, _______, _______, _______, RGB_MOD,  RGB_RMOD,                     _______, UC_NEXT, _______, _______,  _______, _______,
+        _______, _______, _______, _______, RGB_VAI,  RGB_VAD,                      KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,
+        _______, _______, _______, _______, RGB_SPI,  RGB_SPD, _______,  _______,   _______, _______, _______, _______,  _______, _______,
+                          _______, _______, _______,  _______, _______,  A(KC_F12), _______, _______, _______, _______
     ),
     [LAYER_GAME] = LAYOUT(
         KC_U,               KC_T,    KC_1,     KC_2,      KC_3,    KC_4,                                                            KC_5,       KC_6,       KC_7,     KC_8,       KC_9,   KC_0,
@@ -101,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,        _______,   _______,    _______,    _______,    _______,                        KC_PSLS,     KC_7,       KC_8,       KC_9,      KC_PPLS,   _______,
         _______,        _______,   _______,    _______,    _______,    _______,                        KC_PAST,     KC_4,       KC_5,       KC_6,      KC_PEQL,   _______,
         _______,        _______,   _______,    _______,    _______,    _______,   _______,  _______,   KC_PMNS,     KC_1,       KC_2,       KC_3,      KC_PENT,   _______,
-                                   _______,    _______,    _______,    _______,   _______,  _______,   _______,     KC_0,       _______,    _______
+                                   _______,    _______,    _______,    _______,   _______,  _______,   _______,     KC_0,       KC_PDOT,    _______
     ),
     [LAYER_TYPE] = LAYOUT(
         _______,        KC_1,   KC_2,    KC_3,    KC_4,             KC_5,                                        KC_6,           KC_7,              KC_8,            KC_9,          KC_0,     KC_DEL,
@@ -116,28 +118,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    { ENCODER_CCW_CW(UG_VALU, UG_VALD), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    { ENCODER_CCW_CW(UG_VALU, UG_VALD), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
 };
 #endif
 
 #if defined(TAPPING_TERM_PER_KEY)
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case CTL_T(KC_ESC):
-        case LT(L_N, KC_TAB):
-            return 140;
-        case LT(1, KC_SPC):
-        case LT(1, KC_APP):
-            return 140;
-        case MT(MOD_LALT, C_ALT):
-            return 140;
-        default:
-            return TAPPING_TERM;
+    case MT(MOD_RALT, KC_BSPC):
+        return 100;
+    default:
+        return TAPPING_TERM;
     }
 }
 #endif
@@ -168,56 +164,54 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 #endif
 
 #ifdef OLED_ENABLE
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_keyboard_master()) {
-        return OLED_ROTATION_270;
-    }
-    return OLED_ROTATION_0;
+#ifdef LEFT
+    return OLED_ROTATION_270;
+#endif
+#ifndef LEFT
+    return 0;
+#endif
 }
 
-
 bool oled_task_user(void) {
-    if (is_keyboard_master()) {
-        oled_write_P(PSTR("LAYER\n"), false);
-        switch (get_highest_layer(layer_state)) {
-        case LAYER_MAIN:
-            oled_write_ln_P(PSTR("MAIN "), false);
-            break;
-        case LAYER_SYMB:
-            oled_write_ln_P(PSTR("SYMB "), false);
-            break;
-        case LAYER_MISC:
-            oled_write_ln_P(PSTR("MISC "), false);
-            break;
-        case LAYER_NUMBER:
-            oled_write_ln_P(PSTR("NUMB "), false);
-            break;
-        case LAYER_TYPE:
-            oled_write_ln_P(PSTR("TYPE "), false);
-            break;
-        case LAYER_GAME:
-        case LAYER_GAME_INV:
-            oled_write_ln_P(PSTR("GAME "), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("???? "), false);
-        }
-
-        if (shift_held) {
-            oled_write_ln_P(PSTR("SHIFT"), false);
-        } else {
-            oled_write_ln_P(PSTR("-----"), false);
-        }
-        oled_write_ln_P(game_mode           ? PSTR("GAME ") : PSTR("     "), false);
-        led_t led_state = host_keyboard_led_state();
-
-        oled_write_ln_P(led_state.num_lock  ? PSTR("NUML ") : PSTR("     "), false);
-        oled_write_ln_P(led_state.caps_lock ? PSTR("CAPS ") : PSTR("     "), false);
-
-        render_luna(0, 13);
-    } else {
-        render_space();
+#ifdef LEFT
+    oled_write_ln_P(PSTR("LAYER"), false);
+    switch (get_highest_layer(layer_state)) {
+    case LAYER_MAIN:
+        oled_write_ln_P(PSTR("MAIN "), false);
+        break;
+    case LAYER_SYMB:
+        oled_write_ln_P(PSTR("SYMB "), false);
+        break;
+    case LAYER_MISC:
+        oled_write_ln_P(PSTR("MISC "), false);
+        break;
+    case LAYER_NUMBER:
+        oled_write_ln_P(PSTR("NUMB "), false);
+        break;
+    case LAYER_TYPE:
+        oled_write_ln_P(PSTR("TYPE "), false);
+        break;
+    case LAYER_GAME:
+    case LAYER_GAME_INV:
+        oled_write_ln_P(PSTR("GAME "), false);
+        break;
+    default:
+        oled_write_ln_P(PSTR("???? "), false);
     }
+    oled_write_ln_P(PSTR("-----"), false);
+
+    oled_write_ln_P(game_mode           ? PSTR("GAME ") : PSTR("     "), false);
+    oled_write_ln_P(host_keyboard_led_state().num_lock  ? PSTR("NUML ") : PSTR("     "), false);
+    oled_write_ln_P(host_keyboard_led_state().caps_lock ? PSTR("CAPS ") : PSTR("     "), false);
+
+    render_luna(0, 13);
+#endif
+#ifndef LEFT
+    render_space();
+#endif
+
     return false;
 }
 
@@ -229,19 +223,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-    case OSM(MOD_LSFT):
-    case OSM(MOD_RSFT):
-        if (record->event.pressed) {
-            if (shift_held) {
-                tap_code16(KC_CAPS);
-                return false;
-            } else {
-                shift_held = true;
-            }
-        } else {
-            shift_held = false;
-        }
-        break;
     case C_TAB:
         if (record->event.pressed && !custom_ctrl_tab) {
             custom_ctrl_tab = true;
@@ -265,22 +246,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         break;
     case CTL_T(KC_ESC):
-        if (record->tap.count && record->event.pressed && host_keyboard_led_state().caps_lock) {
+        if (record->event.pressed && host_keyboard_led_state().caps_lock) {
             tap_code16(KC_CAPS);
         }
-    case KC_LCTL:
-    case KC_RCTL:
-        isSneaking = record->event.pressed;
-        break;
-    case KC_SPC:
-        isJumping = record->event.pressed;
-        if (isJumping) showedJump = false;
-        break;
     }
 
     return true;
 }
-
 
 // End of space oled stuff
 #endif
@@ -309,6 +281,25 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-// void keyboard_post_init_user(void) {
-//     rgblight_sethsv_noeeprom(HSV_PINK);
-// }
+void keyboard_post_init_user(void) {
+    rgb_matrix_set_color_all(RGB_RED);
+}
+
+static uint8_t numpad_leds[11] = {
+    35, 36, 37, 38,
+    41, 42, 43, 44,
+    46, 47, 48
+};
+bool rgb_matrix_indicators_user(void) {
+    switch (get_highest_layer(layer_state)) {
+        case LAYER_NUMBER:
+            rgb_matrix_set_color_all(0, 0, 0);
+            for (int i = 0; i < 11; ++i) {
+                rgb_matrix_set_color(numpad_leds[i], 0, 128, 0);
+            }
+
+            break;
+    }
+    return false;
+}
+

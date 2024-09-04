@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "spaceship.h"
+
 unsigned int state = 0;
 
 static const char PROGMEM space_row_1[] = {
@@ -198,7 +199,18 @@ static const char PROGMEM mask_row_4[] = {
     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 
-void render_space(void) {
+void render_space() {
+
+#if OLED_TIMEOUT > 0
+    /* the animation prevents the normal timeout from occuring */
+    if (last_input_activity_elapsed() > OLED_TIMEOUT && last_led_activity_elapsed() > OLED_TIMEOUT) {
+        oled_off();
+        return;
+    } else {
+        oled_on();
+    }
+#endif
+
     char current_wpm = get_current_wpm();
     char render_row[128];
     int i;
