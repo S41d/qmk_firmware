@@ -17,7 +17,7 @@
 
 #define EE_HANDS
 #define MASTER_LEFT
-//#define LEFT
+#define LEFT
 
 // #define SPLIT_USB_DETECT
 #define SPLIT_LED_STATE_ENABLE
@@ -31,7 +31,7 @@
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX, UNICODE_MODE_WINCOMPOSE
 
 #define RGB_MATRIX_SLEEP                   // turn off effects when suspended
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 255  // limits maximum brightness of LEDs (max 255). Higher may cause the controller to crash.
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 245  // limits maximum brightness of LEDs (max 255). Higher may cause the controller to crash.
 #define RGB_MATRIX_SPLIT { 29, 29 }
 
 #define TAPPING_TERM 140
