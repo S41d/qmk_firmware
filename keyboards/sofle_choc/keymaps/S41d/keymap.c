@@ -28,7 +28,6 @@ enum {
     LAYER_GAME,
     LAYER_NUMBER,
     LAYER_GAME_INV,
-    LAYER_TYPE,
 };
 
 enum{
@@ -38,7 +37,6 @@ enum{
     L_M = LAYER_MAIN,
     L_N = LAYER_NUMBER,
     L_S = LAYER_SYMB,
-    L_T = LAYER_TYPE,
 };
 enum{
     CKC_TAB = MT(L_N, KC_TAB),
@@ -59,15 +57,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * |------+------+------+------+------+------|  Mute |   | Pause |------+------+------+------+------+------|
     * | LGUI |   Z  |   X  |   C  |   V  |   B  |-------|   |-------|   N  |   M  |   ,  |   .  |   /  | RGUI |
     * `-----------------------------------------/       /    \      \-----------------------------------------'
-    *            | TT_2 | LALT | LSFT | LSPC | /Enter  /      \BkSpc \  | RSPC | RSFT | RALT | TT_2 |
+    *            | L_N  | LALT | LSFT | LSPC | /Enter  /      \BkSpc \  | RSPC | RSFT | RALT | TT_2 |
     *            |      |      |      |      |/       /        \      \ |      |      |      |      |
     *            `----------------------------------'           '------''---------------------------'
     */
     [LAYER_MAIN] = LAYOUT(
-        TG(L_T),       KC_1,   KC_2,  KC_3,    KC_4,    KC_5,                                               KC_6,            KC_7,    KC_8,          KC_9,   KC_0,    KC_DEL,
-        CKC_TAB,       KC_Q,   KC_W,  KC_E,    KC_R,    KC_T,                                               KC_Y,            KC_U,    KC_I,          KC_O,   KC_P,    KC_GRV,
-        CTL_T(KC_ESC), KC_A,   KC_S,  KC_D,    KC_F,    KC_G,                                               KC_H,            KC_J,    KC_K,          KC_L,   KC_SCLN, MT(MOD_RALT, KC_QUOT),
-        KC_LGUI,       KC_Z,   KC_X,  KC_C,    KC_V,    KC_B,            KC_SPC,          KC_MUTE,          KC_N,            KC_M,    KC_COMM,       KC_DOT, KC_SLSH, KC_BSLS,
+        KC_GRV,        KC_1,   KC_2,  KC_3,    KC_4,    KC_5,                                                    KC_6,            KC_7,    KC_8,          KC_9,   KC_0,                  KC_DEL,
+        CKC_TAB,       KC_Q,   KC_W,  KC_E,    KC_R,    KC_T,                                                    KC_Y,            KC_U,    KC_I,          KC_O,   KC_P,                  KC_GRV,
+        CTL_T(KC_ESC), KC_A,   KC_S,  KC_D,    KC_F,    KC_G,                                                    KC_H,            KC_J,    KC_K,          KC_L,   MT(MOD_RALT, KC_SCLN), KC_QUOT,
+        KC_LGUI,       KC_Z,   KC_X,  KC_C,    KC_V,    KC_B,            KC_SPC,          KC_MUTE,               KC_N,            KC_M,    KC_COMM,       KC_DOT, KC_SLSH,               KC_BSLS,
                             TG(L_N),  KC_LALT, KC_LSFT, LT(L_S, KC_SPC), LT(L_O, KC_ENT), MT(MOD_RALT, KC_BSPC), LT(L_S, KC_SPC), KC_RSFT, OSM(MOD_RALT), TG(L_G)
     ),
     [LAYER_SYMB] = LAYOUT(
@@ -85,11 +83,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______,  _______, _______,  A(KC_F12), _______, _______, _______, _______
     ),
     [LAYER_GAME] = LAYOUT(
-        KC_U,               KC_T,    KC_1,     KC_2,      KC_3,    KC_4,                                                            KC_5,       KC_6,       KC_7,     KC_8,       KC_9,   KC_0,
-        KC_TAB,             KC_2,    KC_Q,     KC_W,      KC_E,    KC_R,                                                            KC_T,       KC_Y,       KC_U,     KC_I,       KC_O,   KC_P,
-        CTL_T(KC_ESC),      KC_LSFT, KC_A,     KC_S,      KC_D,    KC_F,                                                            KC_G,       KC_H,       KC_J,     KC_K,       KC_L,   KC_SCLN,
-        TT(LAYER_GAME_INV), KC_G,    KC_Z,     KC_X,      KC_C,    KC_V,                    KC_MUTE,         KC_MPLY,               KC_B,       KC_N,       KC_M,     KC_COMM,    KC_DOT, KC_SLSH,
-                                     KC_LGUI,  KC_LALT,   KC_LALT, KC_SPC, LT(2, KC_ENT),   LT(2, KC_BSPC),  LT(1, KC_SPC),         KC_RSFT,    KC_RALT,  _______
+        KC_U,          KC_T,    KC_1,     KC_2,      KC_3,    KC_4,                                                    KC_5,       KC_6,       KC_7,     KC_8,       KC_9,   KC_0,
+        KC_TAB,        TT(L_g), KC_Q,     KC_W,      KC_E,    KC_R,                                                    KC_T,       KC_Y,       KC_U,     KC_I,       KC_O,   KC_P,
+        CTL_T(KC_ESC), KC_LSFT, KC_A,     KC_S,      KC_D,    KC_F,                                                    KC_G,       KC_H,       KC_J,     KC_K,       KC_L,   KC_SCLN,
+        KC_LGUI,       KC_G,    KC_Z,     KC_X,      KC_C,    KC_V,                    KC_MUTE,         KC_MPLY,       KC_B,       KC_N,       KC_M,     KC_COMM,    KC_DOT, KC_SLSH,
+                                KC_LSFT,  TT(L_g),   KC_LALT, KC_SPC, LT(2, KC_ENT),   LT(2, KC_BSPC),  LT(1, KC_SPC), KC_RSFT,    KC_RALT,  _______
     ),
     [LAYER_GAME_INV] = LAYOUT(
         _______,        KC_9,   KC_8,     KC_7,      KC_6,    KC_5,                                     KC_5,           KC_6,       KC_7,     KC_8,       KC_9,   KC_0,
@@ -105,13 +103,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,        _______,   _______,    _______,    _______,    _______,   _______,  _______,   KC_PMNS,     KC_1,       KC_2,       KC_3,      KC_PENT,   _______,
                                    _______,    _______,    _______,    _______,   _______,  _______,   _______,     KC_0,       KC_PDOT,    _______
     ),
-    [LAYER_TYPE] = LAYOUT(
-        _______,        KC_1,   KC_2,    KC_3,    KC_4,             KC_5,                                        KC_6,           KC_7,              KC_8,            KC_9,          KC_0,     KC_DEL,
-        KC_TAB,         KC_Q,   KC_W,    KC_E,    KC_R,             KC_T,                                        KC_Y,           KC_U,              KC_I,            KC_O,          KC_P,     KC_GRV,
-        CTL_T(KC_ESC),  KC_A,   KC_S,    KC_D,    KC_F,             KC_G,                                        KC_H,           KC_J,              KC_K,            KC_L,          KC_SCLN,  KC_QUOT,
-        KC_BSLS,        KC_Z,   KC_X,    KC_C,    KC_V,             KC_B,       KC_SPC,        KC_MUTE,          KC_N,           KC_M,              KC_COMM,         KC_DOT,        KC_SLSH,  TG(LAYER_NUMBER),
-                                KC_LGUI, KC_LALT, KC_LSFT, LT(1, KC_SPC), LT(2, KC_ENT), LT(2, KC_BSPC),   LT(1, KC_SPC),        KC_RSFT,           OSM(MOD_RALT),   TG(LAYER_GAME)
-    )
 };
 
 
@@ -119,8 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
     { ENCODER_CCW_CW(UG_VALU, UG_VALD), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    { ENCODER_CCW_CW(UG_HUEU, UG_HUED), ENCODER_CCW_CW(UG_SATU, UG_SATD) },
     { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
     { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
     { ENCODER_CCW_CW(KC_BRIU, KC_BRID), ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
@@ -190,9 +180,6 @@ bool oled_task_user(void) {
     case LAYER_NUMBER:
         oled_write_ln_P(PSTR("NUMB "), false);
         break;
-    case LAYER_TYPE:
-        oled_write_ln_P(PSTR("TYPE "), false);
-        break;
     case LAYER_GAME:
     case LAYER_GAME_INV:
         oled_write_ln_P(PSTR("GAME "), false);
@@ -208,6 +195,7 @@ bool oled_task_user(void) {
 
     render_luna(0, 13);
 #endif
+
 #ifndef LEFT
     render_space();
 #endif
@@ -295,7 +283,7 @@ bool rgb_matrix_indicators_user(void) {
         case LAYER_NUMBER:
             rgb_matrix_set_color_all(0, 0, 0);
             for (int i = 0; i < 11; ++i) {
-                rgb_matrix_set_color(numpad_leds[i], 0, 128, 0);
+                rgb_matrix_set_color(numpad_leds[i], 128, 50, 50);
             }
 
             break;
